@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin, BaseUserManager
 from django.db import models
 
 class CustomUserManager(BaseUserManager):
@@ -19,16 +19,16 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, password, **extra_fields)
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractUser, PermissionsMixin):
+    username = None
     email = models.EmailField(unique=True)
-    full_name = models.CharField(max_length=255, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    phone = models.CharField(max_length=15, blank=True)
+    accepted_terms = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['password','phone','axcepted_terms']
 
     def __str__(self):
-        return self.email
+        return self.get_full_name()
