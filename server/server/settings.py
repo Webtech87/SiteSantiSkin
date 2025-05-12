@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # custom apps
     'users.apps.UsersConfig',
+    'drs.apps.DrsConfig'
 ]
 
 MIDDLEWARE = [
