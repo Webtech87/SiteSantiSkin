@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Dr
 
-class DrSerializer(serializers.HyperlinkedModelSerializer):
+class DrSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=True, allow_blank=False)
     last_name = serializers.CharField(required=True, allow_blank=False)
     dr_license = serializers.CharField(required=True, allow_blank=False)

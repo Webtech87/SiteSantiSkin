@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 class Dr(models.Model):
     first_name = models.CharField(_("first name"), max_length=150, blank=True)
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
-    email = models.EmailField(_("email address"), blank=True, unique=True)
+    email = models.EmailField(_("email address"), blank=True)
     is_staff = models.BooleanField(
         _("staff status"),
         default=True,
