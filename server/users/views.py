@@ -1,5 +1,4 @@
-from django.core.serializers import serialize
-from django.shortcuts import render
+from .permissions import IsSuperUser
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -16,7 +15,7 @@ class CustomViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'list':
-            return [IsAdminUser()]
+            return [IsSuperUser()]
         if self.action == 'create':
             return [AllowAny()]
         return [IsAuthenticated()]
