@@ -10,3 +10,8 @@ class DrSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dr
         fields = ['first_name', 'last_name', 'email', 'dr_license']
+
+    def validate_dr_license(self, value):
+        if Dr.objects.filter(dr_license=value).exists():
+            raise serializers.ValidationError("Doctor with this license already exists.")
+        return value
