@@ -1,7 +1,8 @@
+from rest_framework.permissions import AllowAny
+
 from .permitions import MentorShipPermitions
 from rest_framework import viewsets, generics, permissions
 from .models import Mentorship, MentorshipEnrollment
-from users.permissions import IsSuperUser
 from .serializers import MentorshipSerializer, PaidMentorshipEnrollmentSerializer
 
 

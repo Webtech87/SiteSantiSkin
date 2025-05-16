@@ -9,10 +9,13 @@ urlpatterns = [
         'post': 'create',
     }), name='mentorship-list-create'),
 
+
     path('<int:pk>/', MentorshipViewSet.as_view({
         'get': 'retrieve',
         'put': 'update',
         'patch': 'partial_update',
         'delete': 'destroy',
     }), name='mentorship-detail'),
+
+    path('my/', PaidMentorshipListView.as_view(), name='my_mentorship-list'),
 ]

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CoursesViewSet
+from .views import CoursesViewSet,PaidCoursesListView
 
 name_app = 'courses'
 
@@ -15,4 +15,6 @@ urlpatterns = [
         'patch': 'partial_update',
         'delete': 'destroy',
     }), name='course-detail'),
+
+    path('my/', PaidCoursesListView.as_view(), name='my_course-list')
 ]

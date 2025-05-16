@@ -9,7 +9,6 @@ class CoursesViewSet(viewsets.ModelViewSet):
     permission_classes = [MentorShipPermitions]
     serializer_class = CourseSerializer
 
-
 class PaidCoursesListView(generics.ListAPIView):
     serializer_class = PaidCoursesEnrollmentSerializer
     permission_classes = [permissions.IsAuthenticated]
