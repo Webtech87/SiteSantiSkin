@@ -10,10 +10,27 @@ class MentorshipSerializer(serializers.ModelSerializer):
 
 
 class PaidMentorshipEnrollmentSerializer(serializers.ModelSerializer):
-    mentorship = MentorshipSerializer()
+    mentorship = MentorshipSerializer(read_only=True)
     class Meta:
         model = MentorshipEnrollment
         fields = ['id', 'mentorship', 'enrolled_at', 'finish_date', 'paid']
 
     def create(self, validated_data):
-        return MentorshipEnrollment.objects.create(**validated_data)
+        request = self.context.get('request')
+        mentorship_id = self.context.get('view').kwargs.get('pk')  # достаём из URL
+
+        try:
+            mentorship = Mentorship.objects.get(pk=mentorship_id)
+        except Mentorship.DoesNotExist:
+            raise serializers.ValidationError("Mentorship not found.")
+
+        enrollment, created = MentorshipEnrollment.objects.get_or_create(
+            student=request.user,
+            mentorship=mentorship,
+            defaults={'paid': True}
+        )
+
+        if not created:
+            raise serializers.ValidationError("You are already enrolled in this mentorship.")
+
+        return enrollment

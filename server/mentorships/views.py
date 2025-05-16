@@ -11,7 +11,7 @@ class MentorshipViewSet(viewsets.ModelViewSet):
     serializer_class = MentorshipSerializer
 
 
-class PaidMentorshipListView(generics.ListAPIView):
+class PaidMentorshipListView(viewsets.ModelViewSet):
     serializer_class = PaidMentorshipEnrollmentSerializer
     permission_classes = [permissions.IsAuthenticated]
 
