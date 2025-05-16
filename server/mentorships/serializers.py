@@ -14,3 +14,6 @@ class PaidMentorshipEnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = MentorshipEnrollment
         fields = ['id', 'mentorship', 'enrolled_at', 'finish_date', 'paid']
+
+    def create(self, validated_data):
+        return MentorshipEnrollment.objects.create(**validated_data)

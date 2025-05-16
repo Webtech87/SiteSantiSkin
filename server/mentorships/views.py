@@ -5,9 +5,6 @@ from rest_framework import viewsets, generics, permissions
 from .models import Mentorship, MentorshipEnrollment
 from .serializers import MentorshipSerializer, PaidMentorshipEnrollmentSerializer
 
-
-# Create your views here.
-
 class MentorshipViewSet(viewsets.ModelViewSet):
     queryset = Mentorship.objects.all()
     permission_classes = [MentorShipPermitions]
