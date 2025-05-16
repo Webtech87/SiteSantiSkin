@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'drs.apps.DrsConfig',
     'podcast.apps.PodcastConfig',
     'mentorships.apps.MentorshipsConfig',
+    'courses.apps.CoursesConfig'
 ]
 
 MIDDLEWARE = [
