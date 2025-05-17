@@ -2,6 +2,8 @@ from django.db import models
 from drs.models import Dr
 from users.models import CustomUser
 from datetime import datetime, timedelta
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Type(models.TextChoices):
@@ -41,3 +43,9 @@ class MentorshipEnrollment(models.Model):
 
     def __str__(self):
         return f"{self.student} - {self.mentorship} ({'PAID' if self.paid else 'UNPAID'})"
+
+@receiver(post_save, sender=MentorshipEnrollment)
+def set_finish_date(sender, instance, created, **kwargs):
+    if created and not instance.finish_date:
+        instance.finish_date = instance.enrolled_at + timedelta(days=365)
+        instance.save()
