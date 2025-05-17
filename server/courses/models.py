@@ -2,8 +2,6 @@ from django.db import models
 from drs.models import Dr
 from users.models import CustomUser
 from datetime import datetime, timedelta
-# Create your models here.
-
 
 class Type(models.TextChoices):
     ONLINE = ('online', 'Online')

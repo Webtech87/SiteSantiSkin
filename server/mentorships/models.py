@@ -2,16 +2,12 @@ from django.db import models
 from drs.models import Dr
 from users.models import CustomUser
 from datetime import datetime, timedelta
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
 
 class Type(models.TextChoices):
     ONLINE = ('online', 'Online')
     PRESENCE = ('presence', 'Presence')
     HYBRID = ('hybrid', 'Hybrid')
 
-# Create your models here.
 class Mentorship(models.Model):
     title = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -25,7 +21,6 @@ class Mentorship(models.Model):
         return self.title
 
 
-
 class MentorshipEnrollment(models.Model):
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='mentorship_enrollments')
     mentorship = models.ForeignKey(Mentorship, on_delete=models.CASCADE, related_name='enrollments')
@@ -34,7 +29,9 @@ class MentorshipEnrollment(models.Model):
     finish_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        unique_together = ('student', 'mentorship')
+        constraints = [
+            models.UniqueConstraint(fields=['student', 'mentorship'], name='unique_student_mentorship')
+        ]
 
     def save(self, *args, **kwargs):
         if self.enrolled_at and not self.finish_date:
@@ -43,9 +40,3 @@ class MentorshipEnrollment(models.Model):
 
     def __str__(self):
         return f"{self.student} - {self.mentorship} ({'PAID' if self.paid else 'UNPAID'})"
-
-@receiver(post_save, sender=MentorshipEnrollment)
-def set_finish_date(sender, instance, created, **kwargs):
-    if created and not instance.finish_date:
-        instance.finish_date = instance.enrolled_at + timedelta(days=365)
-        instance.save()

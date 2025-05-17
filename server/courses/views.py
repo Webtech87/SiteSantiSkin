@@ -1,15 +1,15 @@
 from rest_framework import generics, permissions, viewsets
 from .models import Course, CoursesEnrollment
 from .serializers import CourseSerializer, PaidCoursesEnrollmentSerializer
-from mentorships.permitions import MentorShipPermitions
+from .permitions import CoursesPermitions
 
 # Create your views here.
 class CoursesViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
-    permission_classes = [MentorShipPermitions]
+    permission_classes = [CoursesPermitions]
     serializer_class = CourseSerializer
 
-class PaidCoursesListView(generics.ListAPIView):
+class PaidCoursesListView(viewsets.ModelViewSet):
     serializer_class = PaidCoursesEnrollmentSerializer
     permission_classes = [permissions.IsAuthenticated]
 

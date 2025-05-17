@@ -1,13 +1,17 @@
 from rest_framework import serializers
-
+from django.db import IntegrityError
 from mentorships.models import Mentorship, MentorshipEnrollment
-
 
 class MentorshipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentorship
         fields = ['id', 'title', 'mentor', 'price', 'type', 'group', 'duration']
 
+    def create(self, validated_data):
+        try:
+            return Mentorship.objects.create(**validated_data)
+        except IntegrityError as e:
+            raise serializers.ValidationError({"error": str(e)})
 
 class PaidMentorshipEnrollmentSerializer(serializers.ModelSerializer):
     mentorship = MentorshipSerializer(read_only=True)

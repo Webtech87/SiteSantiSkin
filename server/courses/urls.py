@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CoursesViewSet,PaidCoursesListView
+from .views import CoursesViewSet, PaidCoursesListView
 
 name_app = 'courses'
 
@@ -16,5 +16,15 @@ urlpatterns = [
         'delete': 'destroy',
     }), name='course-detail'),
 
-    path('my/', PaidCoursesListView.as_view(), name='my_course-list')
+    path('my/', PaidCoursesListView.as_view(
+        {
+            'get': 'list',
+        }
+    ), name='my_course-list'),
+
+    path('<int:pk>/buy/', PaidCoursesListView.as_view(
+        {
+            'post': 'create',
+        }
+    ), name='buy_course')
 ]

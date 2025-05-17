@@ -14,7 +14,27 @@ class CourseSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"error": str(e)})
 
 class PaidCoursesEnrollmentSerializer(serializers.ModelSerializer):
-    mentorship = CourseSerializer()
+    course = CourseSerializer()
     class Meta:
         model = CoursesEnrollment
-        fields = ['id', 'mentorship', 'enrolled_at', 'finish_date', 'paid']
+        fields = ['id', 'course', 'enrolled_at', 'finish_date', 'paid']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        course_id = self.context.get('view').kwargs.get('pk')
+
+        try:
+            courses = Course.objects.get(pk=course_id)
+        except Course.DoesNotExist:
+            raise serializers.ValidationError("Mentorship not found.")
+
+        enrollment, created = CoursesEnrollment.objects.get_or_create(
+            student=request.user,
+            course=courses,
+            defaults={'paid': True}
+        )
+
+        if not created:
+            raise serializers.ValidationError("You are already enrolled in this mentorship.")
+
+        return enrollment
