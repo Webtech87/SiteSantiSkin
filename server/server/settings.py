@@ -15,6 +15,7 @@ import os
 from dotenv import load_dotenv
 from datetime import timedelta
 
+from blog import apps
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,7 +52,8 @@ INSTALLED_APPS = [
     'drs.apps.DrsConfig',
     'podcast.apps.PodcastConfig',
     'mentorships.apps.MentorshipsConfig',
-    'courses.apps.CoursesConfig'
+    'courses.apps.CoursesConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
