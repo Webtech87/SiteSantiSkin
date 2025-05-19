@@ -7,3 +7,6 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [PostPermitions]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+
+

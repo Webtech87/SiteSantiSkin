@@ -8,5 +8,5 @@ urlpatterns = [
     path('api/v1/podcast/', include('podcast.urls')),
     path('api/v1/ms/', include('mentorships.urls')),
     path('api/v1/courses/', include('courses.urls')),
-    path('api/v1/blog/', include('blog.urls')),
+    path('api/v1/post/', include('blog.urls')),
 ]
